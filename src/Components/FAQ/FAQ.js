@@ -5,6 +5,7 @@ const { Panel } = Collapse;
 const FAQ = () => {
   return (
     <div
+      id="faq"
       className="block faqBlock"
       style={{ width: "50%", marginLeft: "auto", marginRight: "auto" }}
     >

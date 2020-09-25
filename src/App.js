@@ -3,6 +3,7 @@ import "./App.css";
 import { Layout } from "antd";
 import AppHeader from "./Components/Common/AppHeader";
 import Home from "./Components/Home/Home";
+import AppFooter from "./Components/Footer/AppFooter";
 
 const { Header, Content, Footer } = Layout;
 
@@ -16,9 +17,9 @@ function App() {
         <Content>
           <Home />
         </Content>
-        {/* <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2018 Created by Ant UED
-        </Footer> */}
+        <Footer style={{ textAlign: "center" }}>
+          <AppFooter />
+        </Footer>
       </Layout>
     </div>
   );

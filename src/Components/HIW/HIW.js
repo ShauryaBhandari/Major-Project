@@ -15,14 +15,14 @@ const HIW = () => {
     setVisible(false);
   };
   return (
-    <div className="block worksBlock">
+    <div id="hiw" className="block worksBlock">
       <div className="container-fluid">
         <div className="titleHolder">
           <h2>How It Works</h2>
           <p>Lorem ipsum dolor sit amet.</p>
           <div className="">
             <Button type="primary" onClick={showModal}>
-              <i class="fa fa-play" aria-hidden="true"></i>
+              <i className="fa fa-play" aria-hidden="true"></i>
             </Button>
           </div>
           <Modal
