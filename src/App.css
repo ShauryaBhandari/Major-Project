@@ -290,7 +290,7 @@ how it works
 ------------
 */
 .worksBlock {
-  /* background: url("./bg.svg") no-repeat; */
+  background: url("Assets/code.jpeg") no-repeat;
   background-position: 50% 0;
   background-size: cover;
   background-attachment: fixed;
