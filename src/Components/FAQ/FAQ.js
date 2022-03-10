@@ -11,35 +11,13 @@ const FAQ = () => {
     >
       <div className="container-fluid">
         <div className="titleHolder">
-          <h2>Frequently Asked Questions</h2>
-          <p>Lorem ipsum dolor sit amet.</p>
+          <h2>Try our Model</h2>
         </div>
-        <Collapse accordion>
-          <Panel header="This is panel header 1" key="1">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem a
-              ea possimus nobis quis. Quod commodi veniam ducimus eaque nam!
-            </p>
-          </Panel>
-          <Panel header="This is panel header 2" key="2">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem a
-              ea possimus nobis quis. Quod commodi veniam ducimus eaque nam!
-            </p>
-          </Panel>
-          <Panel header="This is panel header 3" key="3">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem a
-              ea possimus nobis quis. Quod commodi veniam ducimus eaque nam!
-            </p>
-          </Panel>
-        </Collapse>
+        {/* Yahan model aayega */}
         <div className="quickSupport">
           <h3>Quick Support</h3>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et beatae
-            quidem hic esse quo! Accusantium, reprehenderit odio voluptate ad
-            numquam in quas consequatur laboriosam. Ab?
+            If you need any help or have any questions, feel free to email us.
           </p>
           <Button type="primary">
             <i

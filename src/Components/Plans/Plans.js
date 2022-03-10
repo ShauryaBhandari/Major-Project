@@ -5,7 +5,7 @@ const data = [
     title: "Basic",
     content: [
       {
-        price: "£29.99",
+        price: "Rs. 999/month",
         space: "1 GB of space",
         user: "1 user",
         support: "24/7 support",
@@ -18,7 +18,7 @@ const data = [
     title: "Premium",
     content: [
       {
-        price: "£59.99",
+        price: "Rs. 2999/month",
         space: "5 GB of space",
         user: "5 users",
         support: "24/7 support",
@@ -31,7 +31,7 @@ const data = [
     title: "Enterprise",
     content: [
       {
-        price: "£99.99",
+        price: "Rs. 4999/month",
         space: "Unlimited space",
         user: "15 users",
         support: "24/7 support",
@@ -47,9 +47,6 @@ const Plans = () => {
       <div className="container-fluid">
         <div className="titleHolder">
           <h2>Choose a plan to fit your needs</h2>
-          <p>
-            Debitis itaque minima dolorum fuga aperiam inventore, quidem enim
-          </p>
         </div>
         <List
           grid={{

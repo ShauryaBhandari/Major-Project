@@ -7,7 +7,7 @@ const AppFooter = () => {
       <div className="footer">
         <div className="logo">
           <i className="fas fa-bolt"></i>
-          <a href="http://google.com">Tech</a>
+          <a href="http://google.com">Test app</a>
         </div>
         <ul className="socials">
           <li>
@@ -36,7 +36,7 @@ const AppFooter = () => {
             </a>
           </li>
         </ul>
-        <div className="copyright">Copyright &copy; 2020 Tech</div>
+        <div className="copyright">Copyright &copy; 2020 Test App</div>
         <BackTop>
           <div className="goTop">
             <i className="fas fa-arrow-circle-up"></i>

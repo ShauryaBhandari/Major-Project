@@ -24,7 +24,7 @@ const AppHeader = () => {
             <Link href="#hero" title="Home" />
             <Link href="#about" title="About" />
             <Link href="#hiw" title="How it works" />
-            <Link href="#faq" title="FAQ" />
+            <Link href="#faq" title="Trial" />
             <Link href="#pricing" title="Pricing" />
             <Link href="#contact" title="Contact" />
           </Anchor>
