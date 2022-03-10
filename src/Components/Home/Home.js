@@ -12,7 +12,7 @@ const Home = () => {
     <div id="home" className="main">
       <Hero />
       <About />
-      <Cards />
+      {/* <Cards /> */}
       <HIW />
       <FAQ />
       <Plans />

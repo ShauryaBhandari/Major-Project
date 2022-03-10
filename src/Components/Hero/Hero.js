@@ -5,21 +5,16 @@ import { Button } from "antd";
 const items = [
   {
     key: "1",
-    title: "Web and mobile payment built for developers",
+    title:
+      "A comprehensive ML solution for human counting and social distancing alert generation for COVID 19 safeguards",
     content:
-      "An vim odio ocurreret consetetur, justo constituto ex mea. Quidam facilisis vituperata pri ne. Id nostrud gubergren urbanitas sed, quo summo animal qualisque ut, cu nostro dissentias consectetuer mel. Ut admodum conceptam mei, cu eam tation fabulas abhorreant. His ex mandamus.",
+      "An end-to-end openCV model to detect humans in the frame of an image and in the next iterations count the number of humans in the frame.",
   },
   {
     key: "2",
-    title: "Work better together. Schedule meetings",
+    title: "Problem Statement",
     content:
-      "An vim odio ocurreret consetetur, justo constituto ex mea. Quidam facilisis vituperata pri ne. Id nostrud gubergren urbanitas sed, quo summo animal qualisque ut, cu nostro dissentias consectetuer mel. Ut admodum conceptam mei, cu eam tation fabulas abhorreant. His ex mandamus.",
-  },
-  {
-    key: "3",
-    title: "The best app to increase your productivity",
-    content:
-      "An vim odio ocurreret consetetur, justo constituto ex mea. Quidam facilisis vituperata pri ne. Id nostrud gubergren urbanitas sed, quo summo animal qualisque ut, cu nostro dissentias consectetuer mel. Ut admodum conceptam mei, cu eam tation fabulas abhorreant. His ex mandamus.",
+      "The complexity of counting humans increases exponentially with size, and at a point it is not feasible to track and count the number of humans with the naked eye. To ensure the security of the people at shopping complexes, malls and crowded venues such as stadiums and places of worship, automated Human Counting through images would greatly reduce the risk of fallacies. As an added benefit, this functionality can also be used in the detection of Social Distancing and generation of alerts in cases when it is not being followed.",
   },
 ];
 const Hero = () => {
@@ -33,11 +28,13 @@ const Hero = () => {
                 <h3 style={{ color: "white" }}>{item.title}</h3>
                 <p style={{ color: "white" }}>{item.content}</p>
                 <div className="btnHolder">
-                  <Button type="primary" size="large">
+                  <Button
+                    type="primary"
+                    size="large"
+                    href="https://docs.google.com/presentation/d/1zfoIKiXoVY5limjbaED2nlkyB0VhTN1FZn7X_ONnKfY/edit?usp=sharing"
+                    target="_blank"
+                  >
                     Learn More
-                  </Button>
-                  <Button size="large">
-                    <i className="fas fa-desktop"></i> Watch a Demo
                   </Button>
                 </div>
               </div>

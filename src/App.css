@@ -207,8 +207,8 @@ hero
 ---- 
 */
 .heroBlock {
-  background: url("Assets/bg.svg") no-repeat;
-  background-position: 50% 100%;
+  background: url("Assets/bg1.jpeg") no-repeat;
+  background-position: 10% 10%;
   background-size: cover;
   height: 100vh;
 }
@@ -239,13 +239,15 @@ hero
 }
 
 .heroBlock h3 {
-  font-size: 30px;
+  font-size: 40px;
   line-height: 1.2;
   margin: 0 0 30px;
+  font-weight: bold;
 }
 
 .heroBlock p {
   margin: 0 0 30px;
+  font-size: 20px;
 }
 
 .heroBlock .btnHolder {

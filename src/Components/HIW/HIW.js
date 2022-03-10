@@ -19,7 +19,7 @@ const HIW = () => {
       <div className="container-fluid">
         <div className="titleHolder">
           <h2>How It Works</h2>
-          <p>Lorem ipsum dolor sit amet.</p>
+          <br></br>
           <div className="">
             <Button type="primary" onClick={showModal}>
               <i className="fa fa-play" aria-hidden="true"></i>
