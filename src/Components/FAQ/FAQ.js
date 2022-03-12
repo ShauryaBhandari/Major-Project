@@ -104,6 +104,7 @@ const FAQ = () => {
           onChange={(event) => {
             console.log(event.target.files[0]);
             setSelectedImage(event.target.files[0]);
+            setFormData(event.target.files[0]);
           }}
         />
         <Button
