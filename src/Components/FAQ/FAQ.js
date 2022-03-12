@@ -10,38 +10,53 @@ const FAQ = () => {
     date: "",
     programming: "",
   });
-  function xyz() {
-    console.log("hii");
-    const imagebox = document.getElementById("imagebox");
-    const input = document.getElementById("input");
-    let bytestring = "";
+  const [formData, setFormData] = useState();
+  // function xyz() {
+  //   console.log("hii");
+  //   const imagebox = document.getElementById("imagebox");
+  //   const input = document.getElementById("input");
+  //   let bytestring = "";
 
-    if (input) {
-      let formData = new FormData();
-      formData.append("image", input.files[0]);
+  //   if (input) {
+  //     let formData = new FormData();
+  //     formData.append("image", input.files[0]);
 
-      $.ajax({
-        url: "http://localhost:5000/test", // fix this to your liking
-        type: "POST",
-        data: formData,
-        cache: false,
-        processData: false,
-        contentType: false,
-        error: function (data) {
-          // console.log("I'm not crazy");
-          console.log(data.status);
-          console.log("upload error", data);
-          console.log(data.getAllResponseHeaders());
-        },
-        success: function (data) {
-          // alert("hello"); // if it's failing on actual server check your server FIREWALL + SET UP CORS
-          bytestring = data["status"];
-          let image = bytestring.split("'")[1];
-          imagebox.attr("src", "data:image/jpeg;base64," + image);
-        },
-      });
-    }
-  }
+  //     $.ajax({
+  //       url: "http://localhost:5000/test", // fix this to your liking
+  //       type: "POST",
+  //       data: formData,
+  //       cache: false,
+  //       processData: false,
+  //       contentType: false,
+  //       error: function (data) {
+  //         // console.log("I'm not crazy");
+  //         console.log(data.status);
+  //         console.log("upload error", data);
+  //         console.log(data.getAllResponseHeaders());
+  //       },
+  //       success: function (data) {
+  //         // alert("hello"); // if it's failing on actual server check your server FIREWALL + SET UP CORS
+  //         bytestring = data["status"];
+  //         let image = bytestring.split("'")[1];
+  //         imagebox.attr("src", "data:image/jpeg;base64," + image);
+  //       },
+  //     });
+  //   }
+  // }
+
+  const eventHandler = (event) => {
+    fetch("http://localhost:5000/test", {
+      method: "POST",
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setFormData("");
+      })
+      .catch((err) => console.log("error"));
+  };
+
   function readUrl(input) {
     const imagebox = document.getElementById("imagebox");
     console.log("evoked readUrl");
@@ -95,7 +110,7 @@ const FAQ = () => {
           type="primary"
           name="send"
           id="sendbutton"
-          onClick={() => setSelectedImage(null)}
+          onClick={eventHandler}
         >
           Send
         </Button>
