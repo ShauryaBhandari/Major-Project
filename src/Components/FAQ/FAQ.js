@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
+import $ from "jquery";
+
+
 
 const FAQ = () => {
   const [data, setData] = useState({
@@ -8,7 +11,60 @@ const FAQ = () => {
     date: "",
     programming: "",
   });
-
+  window.onload = () => {
+    document.getElementById("sendbutton").click(() => {
+      const imagebox = document.getElementById("imagebox")
+      const input = document.getElementById("input")[0]
+      let bytestring = "";
+      
+      // console.log("I'm not crazy");
+      if(input.files && input.files[0])
+      {
+        
+        // console.log("I'm not crazy");
+        let formData = new FormData();
+        formData.append('image' , input.files[0]);
+        
+        $.ajax({
+          url: "http://localhost:5000/test", // fix this to your liking
+          type:"POST",
+          data: formData,
+          cache: false,
+          processData:false,
+          contentType:false,
+          error: function(data){
+            // console.log("I'm not crazy");
+            console.log(data.status)
+            console.log("upload error" , data);
+            console.log(data.getAllResponseHeaders());
+          },
+          success: function(data){
+            // alert("hello"); // if it's failing on actual server check your server FIREWALL + SET UP CORS
+            bytestring = data['status']
+            let image = bytestring.split('\'')[1]
+            imagebox.attr('src' , 'data:image/jpeg;base64,'+image)
+          }
+        });
+      }
+    });
+  };
+  function readUrl(input){
+    const imagebox = document.getElementById("imagebox")
+    console.log("evoked readUrl")
+    if(input.files && input.files[0]){
+      let reader = new FileReader();
+      reader.onload = function(e){
+        console.log(e)
+        
+        imagebox.attr('src',e.target.result); 
+        imagebox.height(300);
+        imagebox.width(300);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  
+    
+  }
   useEffect(() => {
     // Using fetch to fetch the api from
     // flask server it will be redirected to proxy
@@ -35,6 +91,9 @@ const FAQ = () => {
         <div className="titleHolder">
           <h2>Try our Model</h2>
         </div>
+        <input id="imageinput" type="file" name="image" onChange="readUrl(this)"></input>
+        <Button type="primary" name="send" id = "sendbutton">Send</Button>
+	      <img id="imagebox" src=""></img>
         {/* Calling a data from setdata for showing */}
         <p>{data.name}</p>
         <p>{data.age}</p>
