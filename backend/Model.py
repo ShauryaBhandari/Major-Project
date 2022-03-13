@@ -102,7 +102,7 @@ def detectByImage(image):
 	
 #     image = cv2.imread(path)
 
-	
+	socvio = False
 	image = imutils.resize(image, width=700)
 	results = pedestrian_detection(image, model, layer_name,
 		personidz=LABELS.index("person"))
@@ -111,12 +111,13 @@ def detectByImage(image):
 		cv2.rectangle(image, (res[1][0],res[1][1]), (res[1][2],res[1][3]), (0, 255, 0), 2)
 		cv2.putText(image, f'person {count}', (res[1][0],res[1][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
 		count += 1
-	cv2.rectangle(image,(350,20),(750,120),(0,0,0),-1)
-	cv2.putText(image,  f'People Detected : {count-1}', (350,40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
+	# cv2.rectangle(image,(350,20),(750,120),(0,0,0),-1)
+	# cv2.putText(image,  f'People Detected : {count-1}', (350,40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
 	if count>15:
-		cv2.putText(image, 'Social Distancing Violated', (350,80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
+		# cv2.putText(image, 'Social Distancing Violated', (350,80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
+		socvio = True
 	# cv2.imshow("Detection",image)
-	return image
+	return (image,count-1,socvio)
 	# cv2.waitKey(0)
 	# cv2.destroyAllWindows()
 

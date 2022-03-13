@@ -9,6 +9,8 @@ const FAQ = () => {
     age: 0,
     date: "",
     programming: "",
+    count:0,
+    socdistvio : ""
   });
   const [formData, setFormData] = useState();
   // function xyz() {
@@ -45,18 +47,52 @@ const FAQ = () => {
   // }
 
   const eventHandler = (event) => {
-    fetch("http://localhost:5000/test", {
+    const field = document.getElementById('imagebox');
+    const imagebox = document.getElementById('img');
+    const formData = new FormData();
+    formData.append("image",field.files[0]);
+    // const newform = new FormData();
+    // newform.append("image",formData.files);
+    console.log("being sent");
+    console.log(formData);
+    // var b64 = getBase64(formData);
+    console.log("was sent");
+    fetch("http://localhost:5000/maskImage", {
       method: "POST",
-      body: JSON.stringify(formData),
+      mode: 'cors',
+      body: formData,
     })
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        setFormData("");
+        let bytestring = result['status'];
+        let image = bytestring.split('\'')[1];
+        imagebox.setAttribute('src','data:image/jpeg;base64,'+image)
+        setData({
+          count:result['count'],
+          socdistvio : String(result['SocialDistVio'])
+        })
       })
-      .catch((err) => console.log("error"));
+      .catch((err) => {
+        console.log("error");
+        console.log(err);
+      });
+      
   };
 
+  function getBase64(file) {
+    let document = "";
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        document = reader.result;
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+
+    return document;
+  }
   function readUrl(input) {
     const imagebox = document.getElementById("imagebox");
     console.log("evoked readUrl");
@@ -99,12 +135,26 @@ const FAQ = () => {
           <h2>Try our Model</h2>
         </div>
         <input
+          id = "imagebox"
           type="file"
           name="myImage"
           onChange={(event) => {
+            const imagebox = document.getElementById('img');
+            
+            const image = document.getElementById('imagebox')[0]
+            console.log("button clicked");
+            console.log(image);
+
+            imagebox.setAttribute('src',URL.createObjectURL(event.target.files[0]));
+            // imagebox.height(300);
+            // imagebox.width(300);
+            let reader = new FileReader();
+            // reader.readAsDataURL(event.target.files[0]);
+            console.log("image : ");
             console.log(event.target.files[0]);
+            // console.log(event.target.files[0]);
             setSelectedImage(event.target.files[0]);
-            setFormData(event.target.files[0]);
+            // setFormData(event.target.files[0]);
           }}
         />
         <Button
@@ -115,12 +165,16 @@ const FAQ = () => {
         >
           Send
         </Button>
-        <img id="imagebox" src=""></img>
+        <hr></hr>
+        <img id="img" src=""
+         style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}></img>
+        <p>Number of People : {data.count}</p>
+        <p>Social Distancing Violation : {data.socdistvio}</p>
         {/* Calling a data from setdata for showing */}
-        <p>{data.name}</p>
+        {/* <p>{data.name}</p>
         <p>{data.age}</p>
         <p>{data.date}</p>
-        <p>{data.programming}</p>{" "}
+        <p>{data.programming}</p>{" "} */}
         <div className="quickSupport">
           <h3>Quick Support</h3>
           <p>
