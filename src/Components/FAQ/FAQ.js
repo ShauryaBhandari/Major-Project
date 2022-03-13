@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import $ from "jquery";
 
 const FAQ = () => {
@@ -9,8 +9,8 @@ const FAQ = () => {
     age: 0,
     date: "",
     programming: "",
-    count:0,
-    socdistvio : ""
+    count: 0,
+    socdistvio: "",
   });
   const [formData, setFormData] = useState();
   // function xyz() {
@@ -47,10 +47,10 @@ const FAQ = () => {
   // }
 
   const eventHandler = (event) => {
-    const field = document.getElementById('imagebox');
-    const imagebox = document.getElementById('img');
+    const field = document.getElementById("imagebox");
+    const imagebox = document.getElementById("img");
     const formData = new FormData();
-    formData.append("image",field.files[0]);
+    formData.append("image", field.files[0]);
     // const newform = new FormData();
     // newform.append("image",formData.files);
     console.log("being sent");
@@ -59,25 +59,24 @@ const FAQ = () => {
     console.log("was sent");
     fetch("http://localhost:5000/maskImage", {
       method: "POST",
-      mode: 'cors',
+      mode: "cors",
       body: formData,
     })
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        let bytestring = result['status'];
-        let image = bytestring.split('\'')[1];
-        imagebox.setAttribute('src','data:image/jpeg;base64,'+image)
+        let bytestring = result["status"];
+        let image = bytestring.split("'")[1];
+        imagebox.setAttribute("src", "data:image/jpeg;base64," + image);
         setData({
-          count:result['count'],
-          socdistvio : String(result['SocialDistVio'])
-        })
+          count: result["count"],
+          socdistvio: String(result["SocialDistVio"]),
+        });
       })
       .catch((err) => {
         console.log("error");
         console.log(err);
       });
-      
   };
 
   function getBase64(file) {
@@ -85,10 +84,10 @@ const FAQ = () => {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-        document = reader.result;
+      document = reader.result;
     };
     reader.onerror = function (error) {
-        console.log('Error: ', error);
+      console.log("Error: ", error);
     };
 
     return document;
@@ -130,22 +129,25 @@ const FAQ = () => {
       className="block faqBlock"
       style={{ width: "50%", marginLeft: "auto", marginRight: "auto" }}
     >
-      <div className="container-fluid">
+      <div className="container-fluid quickSupport">
         <div className="titleHolder">
           <h2>Try our Model</h2>
         </div>
-        <input
-          id = "imagebox"
+        <Input
+          id="imagebox"
           type="file"
           name="myImage"
           onChange={(event) => {
-            const imagebox = document.getElementById('img');
-            
-            const image = document.getElementById('imagebox')[0]
+            const imagebox = document.getElementById("img");
+
+            const image = document.getElementById("imagebox")[0];
             console.log("button clicked");
             console.log(image);
 
-            imagebox.setAttribute('src',URL.createObjectURL(event.target.files[0]));
+            imagebox.setAttribute(
+              "src",
+              URL.createObjectURL(event.target.files[0])
+            );
             // imagebox.height(300);
             // imagebox.width(300);
             let reader = new FileReader();
@@ -157,25 +159,35 @@ const FAQ = () => {
             // setFormData(event.target.files[0]);
           }}
         />
-        <Button
-          type="primary"
-          name="send"
-          id="sendbutton"
-          onClick={eventHandler}
-        >
-          Send
-        </Button>
+        <br></br>
+        <br></br>
+        <span>
+          <Button
+            type="primary"
+            name="send"
+            id="sendbutton"
+            onClick={eventHandler}
+            style={{ textAlign: "center" }}
+          >
+            Send
+          </Button>
+        </span>
         <hr></hr>
-        <img id="img" src=""
-         style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}></img>
-        <p>Number of People : {data.count}</p>
-        <p>Social Distancing Violation : {data.socdistvio}</p>
+        <img
+          id="img"
+          src=""
+          style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}
+        ></img>
+        <b>
+          <p>Number of People : {data.count}</p>
+          <p>Social Distancing Violation : {data.socdistvio}</p>
+        </b>
         {/* Calling a data from setdata for showing */}
         {/* <p>{data.name}</p>
         <p>{data.age}</p>
         <p>{data.date}</p>
         <p>{data.programming}</p>{" "} */}
-        <div className="quickSupport">
+        {/* <div className="quickSupport">
           <h3>Quick Support</h3>
           <p>
             If you need any help or have any questions, feel free to email us.
@@ -188,7 +200,7 @@ const FAQ = () => {
             ></i>
             Email Us!
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
