@@ -3,7 +3,7 @@ import { Button, Input } from "antd";
 import $ from "jquery";
 
 const FAQ = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  var [selectedImage, setSelectedImage] = useState(null);
   const [data, setData] = useState({
     name: "",
     age: 0,
@@ -47,9 +47,15 @@ const FAQ = () => {
   // }
 
   const eventHandler = (event) => {
+    console.log("Event Handler called");
+    // console.log(event);
     const field = document.getElementById("imagebox");
     const imagebox = document.getElementById("img");
+    const videobox = document.getElementById("video");
     const formData = new FormData();
+    const type = field.files[0].type;
+    let x = type.split('/')[0];
+    console.log(x);
     formData.append("image", field.files[0]);
     // const newform = new FormData();
     // newform.append("image",formData.files);
@@ -57,7 +63,9 @@ const FAQ = () => {
     console.log(formData);
     // var b64 = getBase64(formData);
     console.log("was sent");
-    fetch("http://localhost:5000/maskImage", {
+    if(x == 'image')
+    {
+      fetch("http://localhost:5000/maskImage", {
       method: "POST",
       mode: "cors",
       body: formData,
@@ -77,6 +85,32 @@ const FAQ = () => {
         console.log("error");
         console.log(err);
       });
+    }
+    else{
+      console.log('Sending video data');
+      fetch("http://localhost:5000/maskVideo", {
+      method: "POST",
+      mode: "cors",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        let bytestring = result["status"];
+        let image = bytestring.split("'")[1];
+        console.log(image)
+        videobox.setAttribute("src", "data:video/mp4;base64," + image); 
+        // setData({
+        //   count: result["count"],
+        //   socdistvio: String(result["SocialDistVio"]),
+        // });
+      })
+      .catch((err) => {
+        console.log("error");
+        console.log(err);
+      });
+    }
+    
   };
 
   function getBase64(file) {
@@ -139,22 +173,34 @@ const FAQ = () => {
           name="myImage"
           onChange={(event) => {
             const imagebox = document.getElementById("img");
+            const videobox = document.getElementById("video");
 
             const image = document.getElementById("imagebox")[0];
             console.log("button clicked");
             console.log(image);
-
-            imagebox.setAttribute(
-              "src",
-              URL.createObjectURL(event.target.files[0])
-            );
+            if(event.target.files[0].type.split('/')[0] == 'image')
+            {
+              imagebox.setAttribute(
+                "src",
+                URL.createObjectURL(event.target.files[0])
+              );
+            }
+            else if(event.target.files[0].type.split('/')[0] == 'video')
+            {
+              selectedImage = 'video'
+              videobox.setAttribute(
+                "src",
+                URL.createObjectURL(event.target.files[0])
+              );
+            }
+            
             // imagebox.height(300);
             // imagebox.width(300);
             let reader = new FileReader();
             // reader.readAsDataURL(event.target.files[0]);
             console.log("image : ");
             console.log(event.target.files[0]);
-            // console.log(event.target.files[0]);
+            console.log(event.target.files[0].type);
             setSelectedImage(event.target.files[0]);
             // setFormData(event.target.files[0]);
           }}
@@ -178,6 +224,7 @@ const FAQ = () => {
           src=""
           style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}
         ></img>
+        <video id="video" src="" width="740" controls />
         <b>
           <p>Number of People : {data.count}</p>
           <p>Social Distancing Violation : {data.socdistvio}</p>
