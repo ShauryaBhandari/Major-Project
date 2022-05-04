@@ -111,15 +111,9 @@ def detectByImage(image):
 		cv2.rectangle(image, (res[1][0],res[1][1]), (res[1][2],res[1][3]), (0, 255, 0), 2)
 		cv2.putText(image, f'person {count}', (res[1][0],res[1][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
 		count += 1
-	# cv2.rectangle(image,(350,20),(750,120),(0,0,0),-1)
-	# cv2.putText(image,  f'People Detected : {count-1}', (350,40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
 	if count>15:
-		# cv2.putText(image, 'Social Distancing Violated', (350,80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
 		socvio = True
-	# cv2.imshow("Detection",image)
 	return (image,count-1,socvio)
-	# cv2.waitKey(0)
-	# cv2.destroyAllWindows()
 
 def detectByVideo(file):
 	
@@ -139,13 +133,7 @@ def detectByVideo(file):
 		print(k)
 		k += 1
 		ret, frame = cap.read()
-		# cv2.imshow('Trial',frame)
-		# key = cv2.waitKey(1)
-		# cv2.waitKey(5000)
-	# 	# if(k > 1000):
-	# 		# break
 		if(ret):
-			# frame = imutils.resize(frame, width=700)
 			print(frame.shape)
 			results = pedestrian_detection(frame, model, layer_name,
 			personidz=LABELS.index("person"))
@@ -167,49 +155,39 @@ def detectByVideo(file):
 	output.release()
 	cap.release()
 	return output
-	# while (cap.isOpened()):
-	# 	count = 1
-	# 	(grabbed, image) = cap.read()
-	# 	print("loop")
-	# 	if not grabbed:
-	# 		break
-	# 	image = imutils.resize(image, width=700)
-	# 	results = pedestrian_detection(image, model, layer_name,
-	# 		personidz=LABELS.index("person"))
+
+def detectByCamera():
 	
-	# 	for res in results:
-	# 		cv2.rectangle(image, (res[1][0],res[1][1]), (res[1][2],res[1][3]), (0, 255, 0), 2)
-	# 		cv2.putText(image, f'person {count}', (res[1][0],res[1][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
-	# 		count += 1
-	# 	output.write(image)
-	# 	# cv2.putText(image,  f'People Detected : {count-1}', (230,70), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
-		# if count>15:
-		# 	cv2.putText(frame, 'Social Distancing Violated', (230,120), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
-		# cv2.imshow("Detection",image)
-
-		# key = cv2.waitKey(1)
-		# if key == 27:
-		# 	break
-	# output.release()
-	# socvio = False
-	# video = imutils.resize(video, width=700)
-	# results = pedestrian_detection(video, model, layer_name,
-	# 	personidz=LABELS.index("person"))
-	# count = 0
-	# for res in results:
-	# 	cv2.rectangle(video, (res[1][0],res[1][1]), (res[1][2],res[1][3]), (0, 255, 0), 2)
-	# 	cv2.putText(video, f'person {count}', (res[1][0],res[1][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
-	# 	count += 1
-	# # cv2.rectangle(video,(350,20),(750,120),(0,0,0),-1)
-	# # cv2.putText(video,  f'People Detected : {count-1}', (350,40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
-	# if count>15:
-	# 	# cv2.putText(video, 'Social Distancing Violated', (350,80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
-	# 	socvio = True
-	# # cv2.imshow("Detection",video)
-	# return output
-	# cv2.waitKey(0)
-	# cv2.destroyAllWindows()
-
+	count = 0
+	cap = cv2.VideoCapture(0)
+	ret,frame = cap.read()
+	output = cv2.VideoWriter(
+        "output.mp4", cv2.VideoWriter_fourcc('M','P','G','4'), 30, (frame.shape[1], frame.shape[0]))
+	cap.release()
+	cap = cv2.VideoCapture(0)
+	k = 1	
+	while(True):
+		count = 1
+		print(k)
+		k += 1
+		ret, frame = cap.read()
+		print(frame.shape)
+		results = pedestrian_detection(frame, model, layer_name,
+		personidz=LABELS.index("person"))
+	
+		for res in results:
+			cv2.rectangle(frame, (res[1][0],res[1][1]), (res[1][2],res[1][3]), (0, 255, 0), 2)
+			cv2.putText(frame, f'person {count}', (res[1][0],res[1][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
+				
+			count += 1
+		cv2.imshow("name",frame)
+		cv2.waitKey(100)
+		if cv2.waitKey(100) & 0xFF == ord('x'):
+			break
+		output.write(frame)
+	output.release()
+	cap.release()
+	return output
 
 
 def detectByPathVideo(path):
@@ -243,36 +221,3 @@ def detectByPathVideo(path):
 
 	cap.release()
 	cv2.destroyAllWindows()
-
-
-def detectByCamera():   
-	cap = cv2.VideoCapture(0)
-	writer = None
-
-	while True:
-		count = 1
-		(grabbed, image) = cap.read()
-
-		if not grabbed:
-			break
-		image = imutils.resize(image, width=700)
-		results = pedestrian_detection(image, model, layer_name,
-			personidz=LABELS.index("person"))
-	
-		for res in results:
-			cv2.rectangle(image, (res[1][0],res[1][1]), (res[1][2],res[1][3]), (0, 255, 0), 2)
-			cv2.putText(image, f'person {count}', (res[1][0],res[1][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
-			count += 1
-	
-		cv2.putText(image,  f'People Detected : {count-1}', (230,70), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
-		if count>15:
-			cv2.putText(frame, 'Social Distancing Violated', (230,120), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,0), 2)
-		# cv2.imshow("Detection",image)
-
-		# key = cv2.waitKey(1)
-		if key == 27:
-			break
-
-	# cap.release()
-	# cv2.destroyAllWindows()
-	return image

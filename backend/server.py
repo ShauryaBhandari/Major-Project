@@ -5,7 +5,7 @@ import imutils
 from pathlib import Path
 from flask import Flask, render_template , request , jsonify,send_file
 import datetime
-from Model import detectByImage,detectByVideo
+from Model import detectByImage,detectByVideo,detectByCamera
 import cv2
 import numpy as np
 from PIL import Image
@@ -114,6 +114,35 @@ def mask_video():
 	# # print(img_base64)
 	# print("sending")
 	# return jsonify({'status':str(img_base64),'count':count,'SocialDistVio':socvio})
+
+@app.route('/maskCam' , methods=['POST'])
+def mask_cam():
+
+	print("mask cam called")
+	# print(request.files)
+	# print(request.files , file=sys.stderr)
+	# print("called")
+	# print(request.files['image']);
+	# print(request.files['image'])
+	# file = request.files['image']
+	# file.save('abc.webm')
+	output = detectByCamera()
+	# return jsonify({'status':})
+	# return send_file("output.mp4")
+	# print(output)
+	text = ''
+	with open('output.mp4','rb') as videofile:
+		text = base64.b64encode(videofile.read())
+	# cap = cv2.VideoCapture('output.mp4')
+	# while(cap.isOpened()):
+	# 	ret,frame = cap.read()
+	# 	if ret:
+	# 		cv2.imshow(frame)
+	# 		txt = base64.b64encode(frame)
+	# 		text = text + txt
+	# 	else:
+	# 		break
+	return jsonify({'status':str(text)})
 
 @app.after_request
 def after_request(response):

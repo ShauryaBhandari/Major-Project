@@ -4,6 +4,8 @@ import $ from "jquery";
 
 const FAQ = () => {
   var [selectedImage, setSelectedImage] = useState(null);
+  var showVideo = useState("false")
+  var x = "false";
   const [data, setData] = useState({
     name: "",
     age: 0,
@@ -11,6 +13,8 @@ const FAQ = () => {
     programming: "",
     count: 0,
     socdistvio: "",
+    video: false,
+    videoLoading : false,
   });
   const [formData, setFormData] = useState();
   // function xyz() {
@@ -45,7 +49,27 @@ const FAQ = () => {
   //     });
   //   }
   // }
-
+  const camEventHandler = (event) => {
+    
+    const videobox = document.getElementById("video");
+    fetch("http://localhost:5000/maskCam", {
+      method: "POST",
+      mode: "cors",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        let bytestring = result["status"];
+        let image = bytestring.split("'")[1];
+        console.log(image)
+        videobox.setAttribute("src", "data:video/mp4;base64," + image);
+      })
+      .catch((err) => {
+        console.log("error");
+        console.log(err);
+      });
+  }
   const eventHandler = (event) => {
     console.log("Event Handler called");
     // console.log(event);
@@ -77,7 +101,7 @@ const FAQ = () => {
         let image = bytestring.split("'")[1];
         imagebox.setAttribute("src", "data:image/jpeg;base64," + image);
         setData({
-          count: result["count"],
+          count: result["count"]+1,
           socdistvio: String(result["SocialDistVio"]),
         });
       })
@@ -88,6 +112,9 @@ const FAQ = () => {
     }
     else{
       console.log('Sending video data');
+      setData({
+        videoLoading : true
+      })
       fetch("http://localhost:5000/maskVideo", {
       method: "POST",
       mode: "cors",
@@ -100,6 +127,11 @@ const FAQ = () => {
         let image = bytestring.split("'")[1];
         console.log(image)
         videobox.setAttribute("src", "data:video/mp4;base64," + image); 
+        setData({
+          video : true,
+          videoLoading : false
+        })
+        showVideo("true")
         // setData({
         //   count: result["count"],
         //   socdistvio: String(result["SocialDistVio"]),
@@ -110,7 +142,7 @@ const FAQ = () => {
         console.log(err);
       });
     }
-    
+    // showVideo = false
   };
 
   function getBase64(file) {
@@ -188,6 +220,9 @@ const FAQ = () => {
             else if(event.target.files[0].type.split('/')[0] == 'video')
             {
               selectedImage = 'video'
+              setData({
+                video:true
+              })
               videobox.setAttribute(
                 "src",
                 URL.createObjectURL(event.target.files[0])
@@ -217,18 +252,36 @@ const FAQ = () => {
           >
             Send
           </Button>
+          <br></br>
+          <br></br>
+          <Button
+            type="primary"
+            name="send"
+            id="sendbutton"
+            onClick={camEventHandler}
+            style={{ textAlign: "center" }}
+          >
+            Record
+          </Button>
         </span>
         <hr></hr>
+        <h4>Image Identification</h4>
+        <br></br>
         <img
           id="img"
           src=""
           style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}
         ></img>
-        <video id="video" src="" width="740" controls />
-        <b>
+        <b hidden = {!data.count}>
           <p>Number of People : {data.count}</p>
           <p>Social Distancing Violation : {data.socdistvio}</p>
         </b>
+        <hr></hr>
+        <br></br>
+        <h4>Video Identification</h4>
+        <p hidden={!data.videoLoading}>Video is currently being processed.</p>
+        <video id="video" src="" width="740" controls hidden = {!data.video} />
+        
         {/* Calling a data from setdata for showing */}
         {/* <p>{data.name}</p>
         <p>{data.age}</p>
